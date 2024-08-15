@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+option go_package = "../user";
+
+message AuthRequest { //用户认证请求
+  string mobile = 1;
+}
+
+message  CreateUserRequest { //用户添加请求
+  string mobile = 1; //手机号
+  string password  = 2; //密码
+}
+
+message  UserListRequest { //用户列表 请求
+  uint32 pn = 1; //当前页
+  uint32 pSize = 2; //每页条数
+}
+message  UserListResponse { //用户列表 响应
+  int64 total = 1; //总条数
+  repeated UserInfo data = 2;
+}
+message  CheckPassWordRequest { //检查密码 请求
+  //明文密码 123456
+  string password = 1;
+  //密文密码 是调用 rpc GetUserByMobile之后得到密文密码
+  string encryptedPassword = 2;
+}
+message  CheckResponse { //检查密码 响应
+  //true 成功 false 失败
+  bool success = 1;
+}
+
+message  UpdateUserRequest { //更新用户 请求
+  //id 主键id主要是修改的条件
+  int32 id = 1;
+  //昵称
+  string nickName = 2;
+  //邮箱
+  string email = 3;
+
+
+}
+
+service user {
+  rpc AuthUser(AuthRequest) returns (UserInfo); //GetUserByMobile 用户查询 根据手机号 来查询用户
+  rpc CreateUser(CreateUserRequest) returns (UserInfo); //创建用户
+  rpc UserList(UserListRequest) returns (UserListResponse); //用户列表
+  rpc CheckPassWord(CheckPassWordRequest) returns (CheckResponse); //检查密码
+  rpc UpdateUser(UpdateUserRequest) returns (Empty); //更新用户
+}
+
+message Empty {}
+
+message UserInfo {
+  uint32   ID = 1;
+  string   CreatedAt = 7;
+  string  UpdatedAt = 8;
+  string  DeletedAt = 9;
+  string mobile = 2;
+  string password = 3;
+  string nickName = 4;
+  string email =5; //邮箱
+  uint32 status = 6; //状态
+}
