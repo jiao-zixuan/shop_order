@@ -23,9 +23,9 @@ type OrderClient interface {
 	// 添加商品到购物车
 	CreateCartItem(ctx context.Context, in *CartItemRequest, opts ...grpc.CallOption) (*ShopCartInfoResponse, error)
 	// 修改购物车记录 主要修改他是否勾选和购买数量
-	UpdateCartItem(ctx context.Context, in *CartItemRequest, opts ...grpc.CallOption) (*Empty, error)
+	UpdateCartItem(ctx context.Context, in *CartItemRequest, opts ...grpc.CallOption) (*OrderEmpty, error)
 	// 删除购物车 删除多个商品的话用 切片 repeated
-	DeleteOrders(ctx context.Context, in *DeleteOrdersRequest, opts ...grpc.CallOption) (*Empty, error)
+	DeleteOrders(ctx context.Context, in *DeleteOrdersRequest, opts ...grpc.CallOption) (*OrderEmpty, error)
 	// 创建订单
 	Create(ctx context.Context, in *OrderRequest, opts ...grpc.CallOption) (*OrderInfoResponse, error)
 	// 订单列表
@@ -33,7 +33,7 @@ type OrderClient interface {
 	// 订单详情
 	OrderDetail(ctx context.Context, in *OrderRequest, opts ...grpc.CallOption) (*OrderInfoDetailResponse, error)
 	// 修改订单状态
-	UpdateOrderStatus(ctx context.Context, in *UpdateOrderRequest, opts ...grpc.CallOption) (*Empty, error)
+	UpdateOrderStatus(ctx context.Context, in *UpdateOrderRequest, opts ...grpc.CallOption) (*OrderEmpty, error)
 }
 
 type orderClient struct {
@@ -62,8 +62,8 @@ func (c *orderClient) CreateCartItem(ctx context.Context, in *CartItemRequest, o
 	return out, nil
 }
 
-func (c *orderClient) UpdateCartItem(ctx context.Context, in *CartItemRequest, opts ...grpc.CallOption) (*Empty, error) {
-	out := new(Empty)
+func (c *orderClient) UpdateCartItem(ctx context.Context, in *CartItemRequest, opts ...grpc.CallOption) (*OrderEmpty, error) {
+	out := new(OrderEmpty)
 	err := c.cc.Invoke(ctx, "/Order/UpdateCartItem", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -71,8 +71,8 @@ func (c *orderClient) UpdateCartItem(ctx context.Context, in *CartItemRequest, o
 	return out, nil
 }
 
-func (c *orderClient) DeleteOrders(ctx context.Context, in *DeleteOrdersRequest, opts ...grpc.CallOption) (*Empty, error) {
-	out := new(Empty)
+func (c *orderClient) DeleteOrders(ctx context.Context, in *DeleteOrdersRequest, opts ...grpc.CallOption) (*OrderEmpty, error) {
+	out := new(OrderEmpty)
 	err := c.cc.Invoke(ctx, "/Order/DeleteOrders", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -107,8 +107,8 @@ func (c *orderClient) OrderDetail(ctx context.Context, in *OrderRequest, opts ..
 	return out, nil
 }
 
-func (c *orderClient) UpdateOrderStatus(ctx context.Context, in *UpdateOrderRequest, opts ...grpc.CallOption) (*Empty, error) {
-	out := new(Empty)
+func (c *orderClient) UpdateOrderStatus(ctx context.Context, in *UpdateOrderRequest, opts ...grpc.CallOption) (*OrderEmpty, error) {
+	out := new(OrderEmpty)
 	err := c.cc.Invoke(ctx, "/Order/UpdateOrderStatus", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -125,9 +125,9 @@ type OrderServer interface {
 	// 添加商品到购物车
 	CreateCartItem(context.Context, *CartItemRequest) (*ShopCartInfoResponse, error)
 	// 修改购物车记录 主要修改他是否勾选和购买数量
-	UpdateCartItem(context.Context, *CartItemRequest) (*Empty, error)
+	UpdateCartItem(context.Context, *CartItemRequest) (*OrderEmpty, error)
 	// 删除购物车 删除多个商品的话用 切片 repeated
-	DeleteOrders(context.Context, *DeleteOrdersRequest) (*Empty, error)
+	DeleteOrders(context.Context, *DeleteOrdersRequest) (*OrderEmpty, error)
 	// 创建订单
 	Create(context.Context, *OrderRequest) (*OrderInfoResponse, error)
 	// 订单列表
@@ -135,7 +135,7 @@ type OrderServer interface {
 	// 订单详情
 	OrderDetail(context.Context, *OrderRequest) (*OrderInfoDetailResponse, error)
 	// 修改订单状态
-	UpdateOrderStatus(context.Context, *UpdateOrderRequest) (*Empty, error)
+	UpdateOrderStatus(context.Context, *UpdateOrderRequest) (*OrderEmpty, error)
 	mustEmbedUnimplementedOrderServer()
 }
 
@@ -149,10 +149,10 @@ func (UnimplementedOrderServer) CartItemList(context.Context, *UserInfo) (*CartI
 func (UnimplementedOrderServer) CreateCartItem(context.Context, *CartItemRequest) (*ShopCartInfoResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateCartItem not implemented")
 }
-func (UnimplementedOrderServer) UpdateCartItem(context.Context, *CartItemRequest) (*Empty, error) {
+func (UnimplementedOrderServer) UpdateCartItem(context.Context, *CartItemRequest) (*OrderEmpty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateCartItem not implemented")
 }
-func (UnimplementedOrderServer) DeleteOrders(context.Context, *DeleteOrdersRequest) (*Empty, error) {
+func (UnimplementedOrderServer) DeleteOrders(context.Context, *DeleteOrdersRequest) (*OrderEmpty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteOrders not implemented")
 }
 func (UnimplementedOrderServer) Create(context.Context, *OrderRequest) (*OrderInfoResponse, error) {
@@ -164,7 +164,7 @@ func (UnimplementedOrderServer) OrderList(context.Context, *OrderFilterRequest) 
 func (UnimplementedOrderServer) OrderDetail(context.Context, *OrderRequest) (*OrderInfoDetailResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method OrderDetail not implemented")
 }
-func (UnimplementedOrderServer) UpdateOrderStatus(context.Context, *UpdateOrderRequest) (*Empty, error) {
+func (UnimplementedOrderServer) UpdateOrderStatus(context.Context, *UpdateOrderRequest) (*OrderEmpty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateOrderStatus not implemented")
 }
 func (UnimplementedOrderServer) mustEmbedUnimplementedOrderServer() {}
@@ -365,5 +365,5 @@ var Order_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "order.user",
+	Metadata: "order.proto",
 }

@@ -79,9 +79,9 @@ service Order {
   //添加商品到购物车
   rpc CreateCartItem(CartItemRequest) returns(ShopCartInfoResponse);
   // 修改购物车记录 主要修改他是否勾选和购买数量
-  rpc UpdateCartItem(CartItemRequest) returns(Empty);
+  rpc UpdateCartItem(CartItemRequest) returns(OrderEmpty);
   //删除购物车 删除多个商品的话用 切片 repeated
-  rpc DeleteOrders(DeleteOrdersRequest) returns(Empty);
+  rpc DeleteOrders(DeleteOrdersRequest) returns(OrderEmpty);
 
   /*  订单  */
 
@@ -95,10 +95,10 @@ service Order {
   rpc OrderDetail(OrderRequest) returns (OrderInfoDetailResponse);
 
   // 修改订单状态
-  rpc UpdateOrderStatus(UpdateOrderRequest) returns (Empty);
+  rpc UpdateOrderStatus(UpdateOrderRequest) returns (OrderEmpty);
 }
 
-message Empty {}
+message OrderEmpty {}
 
 //  ---------购物车---------
 
