@@ -46,10 +46,10 @@ service user {
   rpc CreateUser(CreateUserRequest) returns (UserInfo); //创建用户
   rpc UserList(UserListRequest) returns (UserListResponse); //用户列表
   rpc CheckPassWord(CheckPassWordRequest) returns (CheckResponse); //检查密码
-  rpc UpdateUser(UpdateUserRequest) returns (Empty); //更新用户
+  rpc UpdateUser(UpdateUserRequest) returns (UserEmpty); //更新用户
 }
 
-message Empty {}
+message UserEmpty {}
 
 message UserInfo {
   uint32   ID = 1;

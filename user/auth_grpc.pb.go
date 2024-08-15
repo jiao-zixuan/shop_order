@@ -22,7 +22,7 @@ type UserClient interface {
 	CreateUser(ctx context.Context, in *CreateUserRequest, opts ...grpc.CallOption) (*UserInfo, error)
 	UserList(ctx context.Context, in *UserListRequest, opts ...grpc.CallOption) (*UserListResponse, error)
 	CheckPassWord(ctx context.Context, in *CheckPassWordRequest, opts ...grpc.CallOption) (*CheckResponse, error)
-	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*Empty, error)
+	UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UserEmpty, error)
 }
 
 type userClient struct {
@@ -69,8 +69,8 @@ func (c *userClient) CheckPassWord(ctx context.Context, in *CheckPassWordRequest
 	return out, nil
 }
 
-func (c *userClient) UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*Empty, error) {
-	out := new(Empty)
+func (c *userClient) UpdateUser(ctx context.Context, in *UpdateUserRequest, opts ...grpc.CallOption) (*UserEmpty, error) {
+	out := new(UserEmpty)
 	err := c.cc.Invoke(ctx, "/user/UpdateUser", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -86,7 +86,7 @@ type UserServer interface {
 	CreateUser(context.Context, *CreateUserRequest) (*UserInfo, error)
 	UserList(context.Context, *UserListRequest) (*UserListResponse, error)
 	CheckPassWord(context.Context, *CheckPassWordRequest) (*CheckResponse, error)
-	UpdateUser(context.Context, *UpdateUserRequest) (*Empty, error)
+	UpdateUser(context.Context, *UpdateUserRequest) (*UserEmpty, error)
 	mustEmbedUnimplementedUserServer()
 }
 
@@ -106,7 +106,7 @@ func (UnimplementedUserServer) UserList(context.Context, *UserListRequest) (*Use
 func (UnimplementedUserServer) CheckPassWord(context.Context, *CheckPassWordRequest) (*CheckResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CheckPassWord not implemented")
 }
-func (UnimplementedUserServer) UpdateUser(context.Context, *UpdateUserRequest) (*Empty, error) {
+func (UnimplementedUserServer) UpdateUser(context.Context, *UpdateUserRequest) (*UserEmpty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
 }
 func (UnimplementedUserServer) mustEmbedUnimplementedUserServer() {}
@@ -241,5 +241,5 @@ var User_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "auth.user",
+	Metadata: "auth.proto",
 }
