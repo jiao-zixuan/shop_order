@@ -49,7 +49,7 @@ message MessageInfo{
 message AddressListRequest{
   uint32 page = 1; //当前页
   uint32 pageSize = 2; //偏移量
-  MessageInfo Address = 3;
+  AddressInfo Address = 3;
 }
 // 地址列表 响应
 message AddressListResp {
