@@ -36,6 +36,7 @@ message OrderRequest { //创建订单 请求
   string name = 4;
   string mobile = 5;
   string post = 6;
+  string orderSn = 7; //订单编号
 }
 
 message OrderFilterRequest {   // 订单列表 请求
@@ -68,6 +69,7 @@ message UpdateOrderRequest {  //修改订单状态
   int32 payType = 2; //支付方式
   string tradeNo = 3; //流水号
   int32 status = 4; //状态
+  string orderSn = 5; //订单编号 自己生产的订单号
 }
 
 service Order {
