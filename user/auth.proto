@@ -3,7 +3,8 @@ syntax = "proto3";
 option go_package = "../user";
 
 message AuthRequest { //用户认证请求
-  string mobile = 1;
+  int64 id = 1;
+  string mobile = 2;
 }
 
 message  CreateUserRequest { //用户添加请求
