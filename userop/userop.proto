@@ -1,0 +1,118 @@
+syntax = "proto3";
+
+package stream;
+
+option go_package = "../userop";
+
+//留言列表请求
+message MessageListRequest {
+  uint32 page = 1; //当前页
+  uint32 pageSize = 2; //偏移量
+  MessageInfo message = 3;
+}
+
+//留言列表响应
+message MessageListResp {
+  int64 total = 1;
+  repeated  MessageInfo  messageData = 2;
+}
+
+
+//留言服务
+service LeavingMessage {
+  //添加留言
+  rpc CreateMessage(MessageInfo) returns (MessageInfo);
+  //留言列表
+  rpc MessageList(MessageListRequest) returns (MessageListResp);
+  //删除留言
+  rpc DeleteMessage(MessageInfo) returns (MessageEmpty);
+
+}
+//留言返回空值
+message MessageEmpty{}
+// 留言结构体
+message MessageInfo{
+  int32 id  = 1;
+  string createdAt = 2;
+  string updatedAt = 3;
+  string deletedAt = 4;
+  int32 userId = 5; //用户id
+  int32 messageType = 6; //留言类型 1留言 2投诉 3询问 4售后 5收购
+  string subject = 7; //留言标题
+  string message = 8; //留言内容
+  string file = 9; //附加文件
+  int32 status = 10; //状态 1正常 2违规
+}
+
+
+// 地址列表 请求
+message AddressListRequest{
+  uint32 page = 1; //当前页
+  uint32 pageSize = 2; //偏移量
+  MessageInfo Address = 3;
+}
+// 地址列表 响应
+message AddressListResp {
+  int64 total = 1;
+  repeated  AddressInfo addressData = 2;
+}
+//地址服务
+service Address {
+  //添加地址
+  rpc CreateAddress(AddressInfo) returns (AddressInfo);
+  //地址列表
+  rpc AddressList(AddressListRequest) returns (AddressListResp);
+  //修改留言
+  rpc UpdateAddress(AddressInfo) returns (AddressEmpty);
+  //删除留言
+  rpc DeleteAddress(AddressInfo) returns (AddressEmpty);
+}
+message AddressEmpty{}
+//地址结构体
+message AddressInfo{
+  int32 id  = 1;
+  string createdAt = 2;
+  string updatedAt = 3;
+  string deletedAt = 4;
+  int32 userId = 5;
+  string province = 6; // 省
+  string city = 7; //市
+  string district = 8; //区
+  string address = 9; //详细地址
+  string name = 10;
+  string mobile = 11;
+}
+
+//收藏列表 请求
+message UserFavListRequest{
+  uint32 page = 1; //当前页
+  uint32 pageSize = 2; //偏移量
+  UserFavInfo userFav = 3;
+}
+//收藏列表 响应
+message UserFavListResp{
+  int64 total = 1;
+  repeated  UserFavInfo userFavData = 2;
+}
+
+//收藏服务
+service UserFav {
+  //添加收藏
+  rpc CreateUserFav(UserFavInfo) returns (UserFavInfo);
+  //地址列表
+  rpc UserFavList(UserFavListRequest) returns (UserFavListResp);
+  //修改留言
+  rpc UpdateUserFav(UserFavInfo) returns (UserFavEmpty);
+  //删除留言
+  rpc DeleteUserFav(UserFavInfo) returns (UserFavEmpty);
+}
+message UserFavEmpty{}
+//收藏结构体
+message UserFavInfo{
+  int32 id  = 1;
+  string createdAt = 2;
+  string updatedAt = 3;
+  string deletedAt = 4;
+  int32 userId = 5;
+  int32 goodsId = 6;
+}
